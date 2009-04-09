@@ -1,0 +1,23 @@
+From: Daniel Chokola <dan@chokola.com>
+Date: Tue, 22 Jul 2008 14:21:36 +0000 (-0400)
+Subject: BUG(1998): use XMMS_PATH_MAX in helpers.h
+X-Git-Url: http://git.xmms.se/?p=xmms2-devel.git;a=commitdiff_plain;h=37578b59f5d7376213da74b3bf6b7c7f430d0bc9
+
+BUG(1998): use XMMS_PATH_MAX in helpers.h
+---
+
+diff --git a/src/include/xmmsclient/xmmsclient++/helpers.h b/src/include/xmmsclient/xmmsclient++/helpers.h
+index b131575..f237231 100644
+--- a/src/include/xmmsclient/xmmsclient++/helpers.h
++++ b/src/include/xmmsclient/xmmsclient++/helpers.h
+@@ -44,8 +44,8 @@ namespace Xmms
+ 	 */
+ 	inline std::string getUserConfDir() {
+ 
+-		char buf[PATH_MAX] = { '\0' };
+-		if( !xmmsc_userconfdir_get( buf, PATH_MAX ) ) {
++		char buf[XMMS_PATH_MAX] = { '\0' };
++		if( !xmmsc_userconfdir_get( buf, XMMS_PATH_MAX ) ) {
+ 			throw Xmms::result_error( "Error occured when trying to get "
+ 			                          "user config directory." );
+ 		}
