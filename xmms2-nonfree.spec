@@ -1,22 +1,20 @@
-%global codename DrLecter
+%global codename DrMattDestruction
 
 Name:			xmms2-nonfree
 Summary:		Nonfree plugins for XMMS2
-Version:		0.5
-Release:		3%{?dist}
+Version:		0.6
+Release:		1%{?dist}
 License:		LGPLv2+
 Group:			Applications/Multimedia
 # Fedora's xmms2 has to use a sanitized tarball, we don't.
 Source0:		http://downloads.sourceforge.net/xmms2/xmms2-%{version}%{codename}.tar.bz2
-# From upstream git (Compilation fixes)
-Patch0:			xmms2-devel.git-37578b59f5d7376213da74b3bf6b7c7f430d0bc9.patch
 # Use libdir properly for Fedora multilib
-Patch1:			xmms2-0.5DrLecter-use-libdir.patch
+Patch1:			xmms2-0.6DrMattDestruction-use-libdir.patch
 
 # Don't add extra CFLAGS, we're smart enough, thanks.
 Patch4:			xmms2-0.5DrLecter-no-O0.patch
 # More sane versioning
-Patch5:			xmms2-0.5DrLecter-moresaneversioning.patch
+Patch5:			xmms2-0.6DrMattDestruction-moresaneversioning.patch
 
 URL:			http://wiki.xmms2.xmms.se/
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -27,7 +25,6 @@ BuildRequires:		python-devel
 BuildRequires:		mac-devel
 
 Provides:		xmms2-mac = %{version}-%{release}
-
 
 %description
 XMMS2 is an audio framework, but it is not a general multimedia player - it 
@@ -44,7 +41,7 @@ This package contains an XMMS2 Plugin for listening to Monkey's Audio files.
 
 %prep
 %setup -q -n xmms2-%{version}%{codename}
-%patch0 -p1 -b .compilefix
+
 %patch1 -p1 -b .plugins-use-libdir
 
 %patch4 -p1 -b .noO0
@@ -78,6 +75,7 @@ export CFLAGS="%{optflags}"
 		--without-plugins=airplay \
 		--without-plugins=alsa \
 		--without-plugins=ao \
+		--without-plugins=apefile \
 		--without-plugins=asf \
 		--without-plugins=asx \
 		--without-plugins=cdda \
@@ -89,15 +87,15 @@ export CFLAGS="%{optflags}"
 		--without-plugins=curl \
 		--without-plugins=file \
 		--without-plugins=flac \
+		--without-plugins=flv \
 		--without-plugins=gme \
 		--without-plugins=gvfs \
+		--without-plugins=html \
 		--without-plugins=ices \
 		--without-plugins=icymetaint \
 		--without-plugins=id3v2 \
 		--without-plugins=jack \
 		--without-plugins=karaoke \
-		--without-plugins=lastfm \
-		--without-plugins=lastfmeta \
 		--without-plugins=m3u \
 		--without-plugins=modplug \
 		--without-plugins=musepack \
@@ -112,6 +110,7 @@ export CFLAGS="%{optflags}"
 		--without-plugins=rss \
 		--without-plugins=samba \
 		--without-plugins=speex \
+		--without-plugins=tta \
 		--without-plugins=vocoder \
 		--without-plugins=vorbis \
 		--without-plugins=wave \
@@ -154,6 +153,9 @@ rm -rf %{buildroot}
 %{_libdir}/xmms2/libxmms_mac.so
 
 %changelog
+* Wed Aug 12 2009 John Doe <anonymous@american.us> 0.6-1
+- Update to 0.6
+
 * Thu Apr 09 2009 John Doe <anonymous@american.us> 0.5-3
 - License is LGPLv2+
 - Some SPEC file cosmetics

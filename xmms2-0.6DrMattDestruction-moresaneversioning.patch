@@ -1,0 +1,36 @@
+diff -up xmms2-0.6DrMattDestruction/wscript.versionsanity xmms2-0.6DrMattDestruction/wscript
+--- xmms2-0.6DrMattDestruction/wscript.versionsanity	2009-08-11 14:00:44.013247917 -0400
++++ xmms2-0.6DrMattDestruction/wscript	2009-08-11 14:01:48.446370522 -0400
+@@ -23,7 +23,7 @@ import Build
+ import Configure
+ from logging import fatal, warning
+ 
+-BASEVERSION="0.6 DrMattDestruction"
++BASEVERSION="0.6"
+ APPNAME='xmms2'
+ 
+ srcdir='.'
+@@ -269,14 +269,15 @@ def configure(conf):
+ 
+     nam,changed = gittools.get_info()
+     conf.check_message("git commit id", "", True, nam)
+-    if Options.options.customversion:
+-        conf.env["VERSION"] = BASEVERSION + " (%s + %s)" % (nam, Options.options.customversion)
+-    else:
+-        dirty=""
+-        if changed:
+-            dirty="-dirty"
+-        conf.check_message("uncommitted changes", "", bool(changed))
+-        conf.env["VERSION"] = BASEVERSION + " (git commit: %s%s)" % (nam, dirty)
++    ## if Options.options.customversion:
++    ##    conf.env["VERSION"] = BASEVERSION + " (%s + %s)" % (nam, Options.options.customversion)
++    ## else:
++    ##     dirty=""
++    ##     if changed:
++    ##         dirty="-dirty"
++    ##     conf.check_message("uncommitted changes", "", bool(changed))
++    ##     conf.env["VERSION"] = BASEVERSION + " (git commit: %s%s)" % (nam, dirty)
++    conf.env["VERSION"] = BASEVERSION
+ 
+     ## conf.env["CCFLAGS"] = Utils.to_list(conf.env["CCFLAGS"]) + ['-g', '-O0']
+     ## conf.env["CXXFLAGS"] = Utils.to_list(conf.env["CXXFLAGS"]) + ['-g', '-O0']
