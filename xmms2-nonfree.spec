@@ -3,8 +3,8 @@
 Name:			xmms2-nonfree
 Summary:		Nonfree plugins for XMMS2
 Version:		0.6
-Release:		1%{?dist}
-License:		LGPLv2+
+Release:		2%{?dist}
+License:		LGPLv2+ and GPLv2+
 Group:			Applications/Multimedia
 # Fedora's xmms2 has to use a sanitized tarball, we don't.
 Source0:		http://downloads.sourceforge.net/xmms2/xmms2-%{version}%{codename}.tar.bz2
@@ -23,8 +23,11 @@ BuildRequires:		glib2-devel
 BuildRequires:		python-devel
 # RPMFusion only BuildRequires
 BuildRequires:		mac-devel
+BuildRequires:		sidplay-libs-static
 
-Provides:		xmms2-mac = %{version}-%{release}
+Requires:		xmms2-mac = %{version}-%{release}
+Requires:		xmms2-sid = %{version}-%{release}
+
 
 %description
 XMMS2 is an audio framework, but it is not a general multimedia player - it 
@@ -37,7 +40,25 @@ formats, which is expandable via plugins. It includes a basic CLI interface
 to the XMMS2 framework, but most users will want to install a graphical XMMS2 
 client (such as gxmms2 or esperanza).
 
+%package mac
+Summary:	XMMS2 plugin for APE audio format
+Group:		Applications/Multimedia
+License:	LGPLv2+
+Requires:	xmms2 = %{version}
+
+%description mac
 This package contains an XMMS2 Plugin for listening to Monkey's Audio files.
+
+%package sid
+Summary:	XMMS2 plugin for SID audio format
+Group:		Applications/Multimedia
+License:	GPLv2+
+Requires:	xmms2 = %{version}
+
+%description sid
+This package contains an XMMS2 Plugin for listening to C64 mono and stereo file
+formats.
+
 
 %prep
 %setup -q -n xmms2-%{version}%{codename}
@@ -53,6 +74,10 @@ WAFADMIN_FILES=`find wafadmin/ -type f`
 for i in $WAFADMIN_FILES; do
 	 sed -i 's|/usr/lib|%{_libdir}|g' $i
 done
+
+# For some reasons RPMFusion's sidplay libraries are moved to a
+# non-standard location. xmms2 can't detect this unless:
+sed -i 's|\[builders\]|\["%{_libdir}/sidplay/builders"\]|' src/plugins/sid/wscript
 
 %build
 export CFLAGS="%{optflags}"
@@ -149,10 +174,23 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
+%doc COPYING.GPL COPYING.LGPL
+
+%files mac
+%defattr(-,root,root,-)
 %doc COPYING.LGPL
 %{_libdir}/xmms2/libxmms_mac.so
 
+%files sid
+%defattr(-,root,root,-)
+%doc COPYING.GPL
+%{_libdir}/xmms2/libxmms_sid.so
+
 %changelog
+* Tue Aug 25 2009 John Doe <anonymous@american.us> 0.6-2
+- Include sid plugin
+- Separate plugin subpackages. The main package is made a meta package.
+
 * Wed Aug 12 2009 John Doe <anonymous@american.us> 0.6-1
 - Update to 0.6
 
