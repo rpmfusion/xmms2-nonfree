@@ -3,7 +3,7 @@
 Name:			xmms2-nonfree
 Summary:		Nonfree plugins for XMMS2
 Version:		0.6
-Release:		2%{?dist}
+Release:		3%{?dist}
 License:		LGPLv2+ and GPLv2+
 Group:			Applications/Multimedia
 # Fedora's xmms2 has to use a sanitized tarball, we don't.
@@ -187,6 +187,9 @@ rm -rf %{buildroot}
 %{_libdir}/xmms2/libxmms_sid.so
 
 %changelog
+* Wed Oct 21 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 0.6-3
+- rebuild for new ffmpeg
+
 * Tue Aug 25 2009 John Doe <anonymous@american.us> 0.6-2
 - Include sid plugin
 - Separate plugin subpackages. The main package is made a meta package.
