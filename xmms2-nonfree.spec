@@ -3,7 +3,7 @@
 Name:			xmms2-nonfree
 Summary:		Nonfree plugins for XMMS2
 Version:		0.6
-Release:		3%{?dist}
+Release:		4%{?dist}
 License:		LGPLv2+ and GPLv2+
 Group:			Applications/Multimedia
 # Fedora's xmms2 has to use a sanitized tarball, we don't.
@@ -40,22 +40,26 @@ formats, which is expandable via plugins. It includes a basic CLI interface
 to the XMMS2 framework, but most users will want to install a graphical XMMS2 
 client (such as gxmms2 or esperanza).
 
-%package mac
+%package -n xmms2-mac
 Summary:	XMMS2 plugin for APE audio format
 Group:		Applications/Multimedia
 License:	LGPLv2+
 Requires:	xmms2 = %{version}
+Obsoletes:	xmms2-nonfree-mac < 0.6-4
+Provides:	xmms2-nonfree-mac = %{version}-%{release}
 
-%description mac
+%description -n xmms2-mac
 This package contains an XMMS2 Plugin for listening to Monkey's Audio files.
 
-%package sid
+%package -n xmms2-sid
 Summary:	XMMS2 plugin for SID audio format
 Group:		Applications/Multimedia
 License:	GPLv2+
 Requires:	xmms2 = %{version}
+Obsoletes:	xmms2-nonfree-sid < 0.6-4
+Provides:	xmms2-nonfree-sid = %{version}-%{release}
 
-%description sid
+%description -n xmms2-sid
 This package contains an XMMS2 Plugin for listening to C64 mono and stereo file
 formats.
 
@@ -176,17 +180,20 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %doc COPYING.GPL COPYING.LGPL
 
-%files mac
+%files -n xmms2-mac
 %defattr(-,root,root,-)
 %doc COPYING.LGPL
 %{_libdir}/xmms2/libxmms_mac.so
 
-%files sid
+%files -n xmms2-sid
 %defattr(-,root,root,-)
 %doc COPYING.GPL
 %{_libdir}/xmms2/libxmms_sid.so
 
 %changelog
+* Sun Oct 25 2009 John Doe <anonymous@american.us> 0.6-4
+- Rename subpackages to fix broken deps (RFBZ#894)
+
 * Wed Oct 21 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 0.6-3
 - rebuild for new ffmpeg
 
