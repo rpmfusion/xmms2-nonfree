@@ -1,20 +1,20 @@
-%global codename DrMattDestruction
+%global codename DrNo
 
 Name:			xmms2-nonfree
 Summary:		Nonfree plugins for XMMS2
-Version:		0.6
-Release:		4%{?dist}
+Version:		0.7
+Release:		1%{?dist}
 License:		LGPLv2+ and GPLv2+
 Group:			Applications/Multimedia
 # Fedora's xmms2 has to use a sanitized tarball, we don't.
 Source0:		http://downloads.sourceforge.net/xmms2/xmms2-%{version}%{codename}.tar.bz2
 # Use libdir properly for Fedora multilib
-Patch1:			xmms2-0.6DrMattDestruction-use-libdir.patch
+Patch1:			xmms2-0.7DrNo-use-libdir.patch
 
 # Don't add extra CFLAGS, we're smart enough, thanks.
-Patch4:			xmms2-0.5DrLecter-no-O0.patch
+Patch4:			xmms2-0.7DrNo-no-O0.patch
 # More sane versioning
-Patch5:			xmms2-0.6DrMattDestruction-moresaneversioning.patch
+Patch5:			xmms2-0.7DrNo-moresaneversioning.patch
 
 URL:			http://wiki.xmms2.xmms.se/
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -86,7 +86,7 @@ sed -i 's|\[builders\]|\["%{_libdir}/sidplay/builders"\]|' src/plugins/sid/wscri
 %build
 export CFLAGS="%{optflags}"
 ./waf configure --prefix=%{_prefix} \
-		--with-libdir=%{_libdir} \
+		--libdir=%{_libdir} \
 		--with-pkgconfigdir=%{_libdir}/pkgconfig \
 		--without-optionals=avahi \
 		--without-optionals=cli \
@@ -158,7 +158,7 @@ rm -rf %{buildroot}
 ./waf install \
 	--destdir=%{buildroot} \
 	--prefix=%{_prefix} \
-	--with-libdir=%{_libdir} \
+	--libdir=%{_libdir} \
 	--with-pkgconfigdir=%{_libdir}/pkgconfig
 
 # There are lots of things that get built that we don't need
@@ -191,6 +191,9 @@ rm -rf %{buildroot}
 %{_libdir}/xmms2/libxmms_sid.so
 
 %changelog
+* Thu Jul 01 2010 John Doe <anonymous@american.us> 0.7-1
+- Update to 0.7
+
 * Sun Oct 25 2009 John Doe <anonymous@american.us> 0.6-4
 - Rename subpackages to fix broken deps (RFBZ#894)
 
