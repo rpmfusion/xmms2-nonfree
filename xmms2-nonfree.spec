@@ -1,20 +1,17 @@
-%global codename DrNo
+%global codename DrO_o
 
 Name:			xmms2-nonfree
 Summary:		Nonfree plugins for XMMS2
-Version:		0.7
+Version:		0.8
 Release:		1%{?dist}
 License:		LGPLv2+ and GPLv2+
 Group:			Applications/Multimedia
 # Fedora's xmms2 has to use a sanitized tarball, we don't.
 Source0:		http://downloads.sourceforge.net/xmms2/xmms2-%{version}%{codename}.tar.bz2
 # Use libdir properly for Fedora multilib
-Patch1:			xmms2-0.7DrNo-use-libdir.patch
-
+Patch0:			xmms2-0.8DrO_o-use-libdir.patch
 # Don't add extra CFLAGS, we're smart enough, thanks.
-Patch4:			xmms2-0.7DrNo-no-O0.patch
-# More sane versioning
-Patch5:			xmms2-0.7DrNo-moresaneversioning.patch
+Patch1:			xmms2-0.8DrO_o-no-O0.patch
 
 URL:			http://wiki.xmms2.xmms.se/
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -23,7 +20,7 @@ BuildRequires:		glib2-devel
 BuildRequires:		python-devel
 # RPMFusion only BuildRequires
 BuildRequires:		mac-devel
-BuildRequires:		sidplay-libs-static
+BuildRequires:		sidplay-libs-devel
 
 Requires:		xmms2-mac = %{version}-%{release}
 Requires:		xmms2-sid = %{version}-%{release}
@@ -67,17 +64,8 @@ formats.
 %prep
 %setup -q -n xmms2-%{version}%{codename}
 
-%patch1 -p1 -b .plugins-use-libdir
-
-%patch4 -p1 -b .noO0
-%patch5 -p1 -b .versionsanity
-
-
-# Clean up paths in wafadmin
-WAFADMIN_FILES=`find wafadmin/ -type f`
-for i in $WAFADMIN_FILES; do
-	 sed -i 's|/usr/lib|%{_libdir}|g' $i
-done
+%patch0 -p1 -b .plugins-use-libdir
+%patch1 -p1 -b .noO0
 
 # For some reasons RPMFusion's sidplay libraries are moved to a
 # non-standard location. xmms2 can't detect this unless:
@@ -88,9 +76,6 @@ export CFLAGS="%{optflags}"
 ./waf configure --prefix=%{_prefix} \
 		--libdir=%{_libdir} \
 		--with-pkgconfigdir=%{_libdir}/pkgconfig \
-		--without-optionals=avahi \
-		--without-optionals=cli \
-		--without-optionals=dns_sd \
 		--without-optionals=et \
 		--without-optionals=launcher \
 		--without-optionals=medialib-updater \
@@ -191,6 +176,9 @@ rm -rf %{buildroot}
 %{_libdir}/xmms2/libxmms_sid.so
 
 %changelog
+* Mon Dec 05 2011 John Doe <anonymous@american.us> 0.8-1
+- Update to 0.8
+
 * Thu Jul 01 2010 John Doe <anonymous@american.us> 0.7-1
 - Update to 0.7
 
