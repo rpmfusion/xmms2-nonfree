@@ -3,7 +3,7 @@
 Name:			xmms2-nonfree
 Summary:		Nonfree plugins for XMMS2
 Version:		0.8
-Release:		1%{?dist}
+Release:		2%{?dist}
 License:		LGPLv2+ and GPLv2+
 Group:			Applications/Multimedia
 # Fedora's xmms2 has to use a sanitized tarball, we don't.
@@ -176,6 +176,9 @@ rm -rf %{buildroot}
 %{_libdir}/xmms2/libxmms_sid.so
 
 %changelog
+* Thu Feb 09 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.8-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Mon Dec 05 2011 John Doe <anonymous@american.us> 0.8-1
 - Update to 0.8
 
