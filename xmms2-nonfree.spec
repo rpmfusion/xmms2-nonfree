@@ -3,7 +3,7 @@
 Name:			xmms2-nonfree
 Summary:		Nonfree plugins for XMMS2
 Version:		0.8
-Release:		4%{?dist}
+Release:		5%{?dist}
 License:		LGPLv2+ and GPLv2+
 Group:			Applications/Multimedia
 # Fedora's xmms2 has to use a sanitized tarball, we don't.
@@ -12,6 +12,7 @@ Source0:		http://downloads.sourceforge.net/xmms2/xmms2-%{version}%{codename}.tar
 Patch0:			xmms2-0.8DrO_o-use-libdir.patch
 # Don't add extra CFLAGS, we're smart enough, thanks.
 Patch1:			xmms2-0.8DrO_o-no-O0.patch
+Patch2:                 fix_vorbis_dso.patch
 
 URL:			http://wiki.xmms2.xmms.se/
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -66,6 +67,7 @@ formats.
 
 %patch0 -p1 -b .plugins-use-libdir
 %patch1 -p1 -b .noO0
+%patch2 -p1 -b .fix_vorbis_dso
 
 # For some reasons RPMFusion's sidplay libraries are moved to a
 # non-standard location. xmms2 can't detect this unless:
@@ -176,6 +178,9 @@ rm -rf %{buildroot}
 %{_libdir}/xmms2/libxmms_sid.so
 
 %changelog
+* Mon Aug 25 2014 Leigh Scott <leigh123linux@googlemail.com> - 0.8-5
+- Fix vorbis DSO build failure
+
 * Tue Mar 12 2013 Nicolas Chauvet <kwizart@gmail.com> - 0.8-4
 - https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
