@@ -3,8 +3,8 @@
 Name:			xmms2-nonfree
 Summary:		Nonfree plugins for XMMS2
 Version:		0.8
-Release:		5%{?dist}
-License:		LGPLv2+ and GPLv2+
+Release:		6%{?dist}
+License:		LGPLv2+
 Group:			Applications/Multimedia
 # Fedora's xmms2 has to use a sanitized tarball, we don't.
 Source0:		http://downloads.sourceforge.net/xmms2/xmms2-%{version}%{codename}.tar.bz2
@@ -15,17 +15,14 @@ Patch1:			xmms2-0.8DrO_o-no-O0.patch
 Patch2:                 fix_vorbis_dso.patch
 
 URL:			http://wiki.xmms2.xmms.se/
-BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:		sqlite-devel
 BuildRequires:		glib2-devel
 BuildRequires:		python-devel
 # RPMFusion only BuildRequires
 BuildRequires:		mac-devel
-BuildRequires:		sidplay-libs-devel
 
 Requires:		xmms2-mac = %{version}-%{release}
-Requires:		xmms2-sid = %{version}-%{release}
-
+Obsoletes:		xmms2-sid < %{version}-%{release}
 
 %description
 XMMS2 is an audio framework, but it is not a general multimedia player - it 
@@ -48,18 +45,6 @@ Provides:	xmms2-nonfree-mac = %{version}-%{release}
 
 %description -n xmms2-mac
 This package contains an XMMS2 Plugin for listening to Monkey's Audio files.
-
-%package -n xmms2-sid
-Summary:	XMMS2 plugin for SID audio format
-Group:		Applications/Multimedia
-License:	GPLv2+
-Requires:	xmms2 = %{version}
-Obsoletes:	xmms2-nonfree-sid < 0.6-4
-Provides:	xmms2-nonfree-sid = %{version}-%{release}
-
-%description -n xmms2-sid
-This package contains an XMMS2 Plugin for listening to C64 mono and stereo file
-formats.
 
 
 %prep
@@ -141,7 +126,6 @@ export CFLAGS="%{optflags}"
 ./waf build -v %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
 ./waf install \
 	--destdir=%{buildroot} \
 	--prefix=%{_prefix} \
@@ -160,24 +144,18 @@ rm -rf %{buildroot}%{_bindir} \
 # exec flags for debuginfo
 chmod +x %{buildroot}%{_libdir}/xmms2/*
 
-%clean
-rm -rf %{buildroot}
 
 %files
-%defattr(-,root,root,-)
 %doc COPYING.GPL COPYING.LGPL
 
 %files -n xmms2-mac
-%defattr(-,root,root,-)
 %doc COPYING.LGPL
 %{_libdir}/xmms2/libxmms_mac.so
 
-%files -n xmms2-sid
-%defattr(-,root,root,-)
-%doc COPYING.GPL
-%{_libdir}/xmms2/libxmms_sid.so
-
 %changelog
+* Tue Jan 06 2015 Orcan Ogetbil <oget[dot]fedora[at]gmail[dot]com> - 0.8-6
+- Drop sid support RFBZ#2764
+
 * Mon Aug 25 2014 Leigh Scott <leigh123linux@googlemail.com> - 0.8-5
 - Fix vorbis DSO build failure
 
