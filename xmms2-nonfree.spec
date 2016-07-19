@@ -3,7 +3,7 @@
 Name:			xmms2-nonfree
 Summary:		Nonfree plugins for XMMS2
 Version:		0.8
-Release:		6%{?dist}
+Release:		7%{?dist}
 License:		LGPLv2+
 Group:			Applications/Multimedia
 # Fedora's xmms2 has to use a sanitized tarball, we don't.
@@ -13,6 +13,7 @@ Patch0:			xmms2-0.8DrO_o-use-libdir.patch
 # Don't add extra CFLAGS, we're smart enough, thanks.
 Patch1:			xmms2-0.8DrO_o-no-O0.patch
 Patch2:                 fix_vorbis_dso.patch
+Patch3:                 mac_abi_change.patch
 
 URL:			http://wiki.xmms2.xmms.se/
 BuildRequires:		sqlite-devel
@@ -53,6 +54,7 @@ This package contains an XMMS2 Plugin for listening to Monkey's Audio files.
 %patch0 -p1 -b .plugins-use-libdir
 %patch1 -p1 -b .noO0
 %patch2 -p1 -b .fix_vorbis_dso
+%patch3 -p1 -b .mac_abi_change
 
 # For some reasons RPMFusion's sidplay libraries are moved to a
 # non-standard location. xmms2 can't detect this unless:
@@ -153,6 +155,9 @@ chmod +x %{buildroot}%{_libdir}/xmms2/*
 %{_libdir}/xmms2/libxmms_mac.so
 
 %changelog
+* Tue Jul 19 2016 Leigh Scott <leigh123linux@googlemail.com> - 0.8-7
+- fix mac ABI breakage
+
 * Tue Jan 06 2015 Orcan Ogetbil <oget[dot]fedora[at]gmail[dot]com> - 0.8-6
 - Drop sid support RFBZ#2764
 

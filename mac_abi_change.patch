@@ -1,0 +1,24 @@
+--- a/src/plugins/mac/source_adapter.h
++++ b/src/plugins/mac/source_adapter.h
+@@ -38,7 +38,7 @@
+ 	~CSourceAdapter () {};
+ 
+ 	// open / close
+-	int Open (const wchar_t * pName) { return ERROR_SUCCESS; }
++	int Open(const wchar_t * pName, BOOL bOpenReadOnly = FALSE) { return ERROR_SUCCESS; }
+ 	int Close () { return ERROR_SUCCESS; }
+ 
+ 	// read / write
+
+--- a/src/plugins/mac/mac.cpp
++++ b/src/plugins/mac/mac.cpp
+@@ -210,7 +210,7 @@
+ 				gchar *name;
+ 
+ 				field_name = pTagField->GetFieldName ();
+-				name = (gchar *)GetUTF8FromUTF16 (field_name);
++				name = (gchar *)CAPECharacterHelper::GetUTF8FromUTF16 (field_name);
+ 
+ 				memset (field_value, 0, 255);
+ 				int size = 255;
+
