@@ -1,9 +1,10 @@
+%global	debug_package %{nil}
 %global codename DrO_o
 
 Name:			xmms2-nonfree
 Summary:		Nonfree plugins for XMMS2
 Version:		0.8
-Release:		9%{?dist}
+Release:		10%{?dist}
 License:		LGPLv2+
 Group:			Applications/Multimedia
 # Fedora's xmms2 has to use a sanitized tarball, we don't.
@@ -155,6 +156,9 @@ chmod +x %{buildroot}%{_libdir}/xmms2/*
 %{_libdir}/xmms2/libxmms_mac.so
 
 %changelog
+* Fri Sep 01 2017 Leigh Scott <leigh123linux@googlemail.com> - 0.8-10
+- Disable debuginfo
+
 * Thu Aug 31 2017 RPM Fusion Release Engineering <kwizart@rpmfusion.org> - 0.8-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
