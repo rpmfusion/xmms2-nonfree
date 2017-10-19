@@ -1,11 +1,11 @@
-%global	debug_package %{nil}
 %global codename DrO_o
 
 Name:			xmms2-nonfree
 Summary:		Nonfree plugins for XMMS2
 Version:		0.8
-Release:		10%{?dist}
+Release:		11%{?dist}
 License:		LGPLv2+
+URL:			http://wiki.xmms2.xmms.se/
 Group:			Applications/Multimedia
 # Fedora's xmms2 has to use a sanitized tarball, we don't.
 Source0:		http://downloads.sourceforge.net/xmms2/xmms2-%{version}%{codename}.tar.bz2
@@ -13,15 +13,14 @@ Source0:		http://downloads.sourceforge.net/xmms2/xmms2-%{version}%{codename}.tar
 Patch0:			xmms2-0.8DrO_o-use-libdir.patch
 # Don't add extra CFLAGS, we're smart enough, thanks.
 Patch1:			xmms2-0.8DrO_o-no-O0.patch
-Patch2:                 fix_vorbis_dso.patch
-Patch3:                 mac_abi_change.patch
+Patch2:			fix_vorbis_dso.patch
+Patch3:			mac_abi_change.patch
 
-URL:			http://wiki.xmms2.xmms.se/
-BuildRequires:		sqlite-devel
-BuildRequires:		glib2-devel
-BuildRequires:		python-devel
+BuildRequires:	sqlite-devel
+BuildRequires:	glib2-devel
+BuildRequires:	python-devel
 # RPMFusion only BuildRequires
-BuildRequires:		mac-devel
+BuildRequires:	mac-devel
 
 Requires:		xmms2-mac = %{version}-%{release}
 Obsoletes:		xmms2-sid < %{version}-%{release}
@@ -61,8 +60,12 @@ This package contains an XMMS2 Plugin for listening to Monkey's Audio files.
 # non-standard location. xmms2 can't detect this unless:
 sed -i 's|\[builders\]|\["%{_libdir}/sidplay/builders"\]|' src/plugins/sid/wscript
 
+# add configure to export build flags
+touch configure
+chmod a+x configure
+
 %build
-export CFLAGS="%{optflags}"
+%configure
 ./waf configure --prefix=%{_prefix} \
 		--libdir=%{_libdir} \
 		--with-pkgconfigdir=%{_libdir}/pkgconfig \
@@ -149,13 +152,15 @@ chmod +x %{buildroot}%{_libdir}/xmms2/*
 
 
 %files
-%doc COPYING.GPL COPYING.LGPL
 
 %files -n xmms2-mac
-%doc COPYING.LGPL
+%license COPYING.GPL COPYING.LGPL
 %{_libdir}/xmms2/libxmms_mac.so
 
 %changelog
+* Thu Oct 19 2017 Leigh Scott <leigh123linux@googlemail.com> - 0.8-11
+- Fix build flags so debug packages are generated
+
 * Fri Sep 01 2017 Leigh Scott <leigh123linux@googlemail.com> - 0.8-10
 - Disable debuginfo
 
