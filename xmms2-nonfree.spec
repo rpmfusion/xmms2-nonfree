@@ -3,7 +3,7 @@
 Name:			xmms2-nonfree
 Summary:		Nonfree plugins for XMMS2
 Version:		0.8
-Release:		11%{?dist}
+Release:		12%{?dist}
 License:		LGPLv2+
 URL:			http://wiki.xmms2.xmms.se/
 Group:			Applications/Multimedia
@@ -158,6 +158,9 @@ chmod +x %{buildroot}%{_libdir}/xmms2/*
 %{_libdir}/xmms2/libxmms_mac.so
 
 %changelog
+* Fri Mar 02 2018 RPM Fusion Release Engineering <leigh123linux@googlemail.com> - 0.8-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
 * Thu Oct 19 2017 Leigh Scott <leigh123linux@googlemail.com> - 0.8-11
 - Fix build flags so debug packages are generated
 
