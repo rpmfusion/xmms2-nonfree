@@ -18,7 +18,7 @@ Patch3:			mac_abi_change.patch
 
 BuildRequires:	sqlite-devel
 BuildRequires:	glib2-devel
-BuildRequires:	python-devel
+BuildRequires:	python2-devel
 # RPMFusion only BuildRequires
 BuildRequires:	mac-devel
 
@@ -59,6 +59,11 @@ This package contains an XMMS2 Plugin for listening to Monkey's Audio files.
 # For some reasons RPMFusion's sidplay libraries are moved to a
 # non-standard location. xmms2 can't detect this unless:
 sed -i 's|\[builders\]|\["%{_libdir}/sidplay/builders"\]|' src/plugins/sid/wscript
+
+for i in doc/tutorial/python/tut1.py doc/tutorial/python/tut2.py doc/tutorial/python/tut3.py doc/tutorial/python/tut4.py doc/tutorial/python/tut5.py doc/tutorial/python/tut6.py utils/gen-tree-hashes.py utils/gen-wiki-release-bugs.py utils/gen-tarball.py utils/gen-wiki-release-authors.py waf waftools/podselect.py waftools/genipc.py waftools/genipc_server.py waftools/cython.py; do
+	sed -i 's|#!/usr/bin/env python|#!/usr/bin/env python2|g' $i
+done
+
 
 # add configure to export build flags
 touch configure
