@@ -16,7 +16,7 @@ Patch1:			xmms2-0.8DrO_o-no-O0.patch
 Patch2:			fix_vorbis_dso.patch
 Patch3:			mac_abi_change.patch
 
-BuildRequires:	gcc
+BuildRequires:	gcc-c++
 BuildRequires:	sqlite-devel
 BuildRequires:	glib2-devel
 BuildRequires:	python2-devel
